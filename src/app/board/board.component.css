@@ -1,0 +1,181 @@
+
+  /*.points{
+    font-size: 15px;
+    position:absolute;
+    bottom:0;
+    right:0;
+  }*/
+
+/*RETRO*/
+
+.tws{
+  background:#8c2d0f;
+}
+
+.tls{
+  background: #18879a;
+}
+
+.dls{
+  background: #73bbb1;
+}
+
+.dws {
+  background:#e36e54;
+}
+
+.letter{
+  color: #e9ac30;
+  font-size: 20px;
+}
+
+.played-letter, .played-letter-points{
+  font-family: 'Lobster';
+  color: #e9ac30;
+}
+
+.played-letter{
+
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-size: 1.3vw;
+
+}
+
+.played-letter-points{
+  position: absolute;
+  bottom: 5%;
+  right: 10%;
+  font-size: 1vw;
+}
+
+.square {
+  float:left;
+  position: relative;
+  width: 6.3%;
+  padding-bottom: 6.3%; /* = width for a 1:1 aspect ratio */
+
+  margin:0.16%;
+  overflow:hidden;
+
+}
+
+.content {
+  position:absolute;
+  vertical-align:middle;
+text-align: center;
+  height:100%; /* = 100% - 2*10% padding */
+  width:100%; /* = 100% - 2*5% padding */
+  /*padding: 5% 5%;*/
+  
+}
+
+.table{
+  display:table;
+  width:100%;
+  height:100%;
+  
+}
+.table-cell{
+  display:table-cell;
+  vertical-align:middle;
+  width: 80%;
+  padding: 10%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+ /* top: 25%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;*/
+
+
+  /*LIGHT RETRO
+  .tws{
+    background: #ea7a9d;
+  }
+
+  .tls{
+    background: #7a9dea;
+  }
+
+  .dls{
+    background: #9dea7a;
+  }
+
+  .dws {
+    background: #ea7a9d;
+  }
+
+  .letter {
+    color: #ffe28a;
+  }*/
+
+
+  /* NEON VERSION
+  .dws-neon{
+    background: 	#4deeea;
+  }
+
+  .tws-neon{
+      background: #f000ff;
+  }
+
+  .dls-neon{
+    background: #74ee15;
+  }
+
+  .tls-neon{
+    background: 	#001eff;
+  }*/
+
+  .dws .tws .dls .tls {
+  font-size: 35px;
+  }
+
+  .board{
+  background-color:#123440;
+  width: 100%;
+  /*width: 780px;*/
+  /*box-shadow: 0px 0px 20px 20px rgb(11, 47, 95);*/
+  }
+
+  .occupied{
+    font-size: 35px;
+  }
+
+  /*
+  .dws{
+      background: darkblue;
+  }
+
+  .tws{
+      background: red;
+  }
+
+  .dls{
+    background: palevioletred
+  }
+
+  .tls{
+    background: aqua;
+  }
+
+.dws .tws .dls .tls {
+  font-size: 5px;
+}
+
+.board{
+  background-color: #5499C7;
+}
+*/

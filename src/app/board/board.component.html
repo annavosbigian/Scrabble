@@ -1,0 +1,298 @@
+<div class="board" *ngIf="gameService.spaces">
+  <div *ngFor="let i of rowOne">
+    <div class="square  {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell ">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+ <div *ngFor="let i of rowTwo">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowThree">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+<div *ngFor="let i of rowFour">
+    <div class="square {{gameService.spaces[i].bonus}}">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowFive">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowSix">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowSeven">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowEight">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)" (click)="seeId(i)">
+      <div class="content"  id="{{i}}">
+        <div class="table" id="{{i}}">
+          <div class="table-cell" >
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowNine">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowTen">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowEleven">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowTwelve">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowThirteen">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowFourteen">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let i of rowFifteen">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+      <div class="content">
+        <div class="table">
+          <div class="table-cell">
+            <span class="played-letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+          <span *ngIf="gameService.spaces[i].occupied" class="played-letter-points">{{gameService.spaces[i].letter.points}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+<div class="board" *ngIf="gameService.spaces">
+  <table >
+    <thead>
+      <tr>
+        <td *ngFor="let i of rowOne" >
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span id="{{i}}" class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+            <span *ngIf="gameService.spaces[i].occupied" class="points">{{gameService.spaces[i].letter.points}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td *ngFor="let i of rowTwo">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td *ngFor="let i of rowThree">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td *ngFor="let i of rowFour">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td  *ngFor="let i of rowFive">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr >
+        <td *ngFor="let i of rowSix">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td  *ngFor="let i of rowSeven">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)" (click)="seeId(i)">
+            <span class="letter" id="{{i}}">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+            <span *ngIf="gameService.spaces[i].occupied" class="points">{{gameService.spaces[i].letter.points}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr >
+        <td *ngFor="let i of rowEight">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)"  (click)="seeId(i)">
+            <span class="letter" id="{{i}}">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr >
+        <td *ngFor="let i of rowNine">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr >
+        <td *ngFor="let i of rowTen">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr >
+        <td *ngFor="let i of rowEleven">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td  *ngFor="let i of rowTwelve">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr >
+        <td *ngFor="let i of rowThirteen">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr >
+        <td *ngFor="let i of rowFourteen">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr >
+        <td *ngFor="let i of rowFifteen">
+          <div class="space {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
+            <span class="letter">{{gameService.spaces[i].occupied ? gameService.spaces[i].letter.letter : gameService.spaces[i].bonus}}</span>
+          </div>
+        </td>
+      </tr>
+    </thead>
+  </table>
+</div>
+-->

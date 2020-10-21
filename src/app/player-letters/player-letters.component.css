@@ -1,0 +1,17 @@
+
+
+  .space {
+    width: 70px;
+    height: 70px;
+    float: left;
+    font-size: 40px;
+    margin-right: 10px;
+  }
+
+  .letter{
+    font-family: 'Lobster';
+  }
+
+  .points{
+    font-size: 15px;
+  }

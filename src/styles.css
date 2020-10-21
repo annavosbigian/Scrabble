@@ -1,1 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Monoton&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+
+body{
+  /*background-color:#17202A;
+  background-color: #024c59;*/
+  background-color:	#123440;
+
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Lobster', Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+  .form-inline{
+    display: inline-block;
+  }
+
+  .space {
+    width: 50px;
+    height: 50px;
+    /*width: 100%;
+    height: 100%;*/
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Asap', serif;
+    color: #dc947f;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: #055565;
+    border: none;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+.letter, .points{
+  font-family: lobster;
+}
+
+  .letter {
+    font-family: lobster;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .points{
+    font-size: 15px;
+    position:absolute;
+    bottom: 10%;
+    right: 10%;
+  }
+
+.square{
+  background-color: #055565;
+}
+
