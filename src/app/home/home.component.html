@@ -13,11 +13,7 @@
         </div>
       </ng-template>
     </div>
-    <div class="col-md-3">
-      <div class="name">
-        Remaining Letters: {{gameService.letters.length}}
-      </div>
-    </div>
+
   </div>
   <div class="row">
     <div class="col-md-1 offset-2">
@@ -52,9 +48,12 @@
         </div>  
         </div>
       <div class="row message-row">
-        <div *ngIf="message" class="messageTest">
+        <div *ngIf="message" class="message">
           <div class="message-text">
             {{message}}
+          </div>
+          <div class="message-text" *ngIf="showStats">
+            Average turn score: {{averageScore}}
           </div>
         </div>
       </div>

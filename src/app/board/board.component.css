@@ -1,32 +1,42 @@
+.board{
+  background-color:#123440;
+  width: 100%;
+  }
 
-  /*.points{
-    font-size: 15px;
-    position:absolute;
-    bottom:0;
-    right:0;
-  }*/
-
-/*RETRO*/
-
-.tws{
-  background:#8c2d0f;
+.square {
+  float:left;
+  position: relative;
+  width: 6.3%;
+  padding-bottom: 6.3%; /* = width for a 1:1 aspect ratio */
+  margin:0.16%;
+  overflow:hidden;
 }
 
-.tls{
-  background: #18879a;
+.content {
+  position:absolute;
+  vertical-align:middle;
+  text-align: center;
+  height:100%; /* = 100% - 2*10% padding */
+  width:100%; /* = 100% - 2*5% padding */
+  /*padding: 5% 5%;*/
+  
 }
 
-.dls{
-  background: #73bbb1;
+.table{
+  display:table;
+  width:100%;
+  height:100%;
+  
 }
-
-.dws {
-  background:#e36e54;
-}
-
-.letter{
-  color: #e9ac30;
-  font-size: 20px;
+.table-cell{
+  display:table-cell;
+  vertical-align:middle;
+  width: 80%;
+  padding: 10%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .played-letter, .played-letter-points{
@@ -56,49 +66,25 @@
   font-size: 1vw;
 }
 
-.square {
-  float:left;
-  position: relative;
-  width: 6.3%;
-  padding-bottom: 6.3%; /* = width for a 1:1 aspect ratio */
+  /*RETRO*/
 
-  margin:0.16%;
-  overflow:hidden;
-
+.tws{
+  background:#8c2d0f;
 }
 
-.content {
-  position:absolute;
-  vertical-align:middle;
-text-align: center;
-  height:100%; /* = 100% - 2*10% padding */
-  width:100%; /* = 100% - 2*5% padding */
-  /*padding: 5% 5%;*/
-  
+.tls{
+  background: #18879a;
 }
 
-.table{
-  display:table;
-  width:100%;
-  height:100%;
-  
-}
-.table-cell{
-  display:table-cell;
-  vertical-align:middle;
-  width: 80%;
-  padding: 10%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.dls{
+  background: #73bbb1;
 }
 
- /* top: 25%;
-  margin: 0;
-  transform: translate(-50%, -50%);
-  text-transform: uppercase;*/
+.dws {
+  background:#e36e54;
+}
 
+ 
 
   /*LIGHT RETRO
   .tws{
@@ -121,8 +107,7 @@ text-align: center;
     color: #ffe28a;
   }*/
 
-
-  /* NEON VERSION
+ /* NEON VERSION
   .dws-neon{
     background: 	#4deeea;
   }
@@ -138,44 +123,3 @@ text-align: center;
   .tls-neon{
     background: 	#001eff;
   }*/
-
-  .dws .tws .dls .tls {
-  font-size: 35px;
-  }
-
-  .board{
-  background-color:#123440;
-  width: 100%;
-  /*width: 780px;*/
-  /*box-shadow: 0px 0px 20px 20px rgb(11, 47, 95);*/
-  }
-
-  .occupied{
-    font-size: 35px;
-  }
-
-  /*
-  .dws{
-      background: darkblue;
-  }
-
-  .tws{
-      background: red;
-  }
-
-  .dls{
-    background: palevioletred
-  }
-
-  .tls{
-    background: aqua;
-  }
-
-.dws .tws .dls .tls {
-  font-size: 5px;
-}
-
-.board{
-  background-color: #5499C7;
-}
-*/

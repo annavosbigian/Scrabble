@@ -23,6 +23,9 @@ export class GameService {
   words: string[];
   message: string;
   dictionaryUrl = '../assets/dictionary.json';
+  MWDictionaryUrl =  'https://dictionaryapi.com/api/v3/references/collegiate/json/'
+  key='?key='
+  remainingLetters: number = 98;
 
 //don't do available until after - let them put it anywhere and if it isn't touching an available space then it isn't valid
 
@@ -170,22 +173,19 @@ export class GameService {
     this.letters.push({ letter: "z", points: 10 });
   }
 
-  public createPlayer(){
-
-  }
-
   public startGame(name: string = "", restart: boolean){
     if (restart){
       this.createBoard();
-      this.direction = null;
-      this.thisTurnSpaces = [];
-      this.thisTurnScore = 0;
       this.player ={name: this.player.name, score: 0, letters: []};
     }
     else{
       this.player = {name: name, score: 0, letters: []};
     }
     this.getLetters(7);
+    this.thisTurnSpaces = [];
+    this.tempAvailable = [];
+    this.thisTurnScore = 0;
+    this.direction = null;
     this.spaces[112].available = true;
     return this.player;
   }
@@ -193,24 +193,19 @@ export class GameService {
   public getLetters(total: number) {
     //gather random letters
     for (let i = 0; i < total; i++) {
-      this.player.letters.push(this.letters[Math.floor(Math.random() * 98)]);
+      var letterLocation = Math.floor(Math.random() * this.remainingLetters);
+      this.player.letters.push(this.letters[letterLocation]);
+      this.letters.splice(letterLocation, 1);
+      this.remainingLetters--;
     }
-  }
-
-  replaceLetters(){
-    this.player.letters = [];
-    this.getLetters(7);
   }
   
   playLetter(spaceId: number, letter: Letter){
     this.message="";
     //initiate letters
-    if (!this.thisTurnSpaces){
-      this.thisTurnSpaces = [];
-    }
+    console.log("this turn spaces", this.thisTurnSpaces);
     //initiate word if empty
     if (this.thisTurnSpaces.length < 1){
-      this.tempAvailable = [];
       this.start = spaceId;
       this.setLetter(spaceId, letter)
     }
@@ -238,6 +233,8 @@ export class GameService {
   //could just do addition down the line - make one the min and one the max - and make sure everything is avail
   validateMove(spaceId: number): boolean {
     var space: Space = this.spaces[spaceId];
+    console.log("direction", this.direction);
+    console.log("start", this.start);
     if (!this.direction){
       if (this.spaces[this.start].xcoord == space.xcoord){
         this.direction = "vertical";
@@ -268,7 +265,7 @@ export class GameService {
   }
 
   scanDirection(spaceId: number, distance: number){
-    var min: number = spaceId < this.start ? spaceId : this.start;
+    /*var min: number = spaceId < this.start ? spaceId : this.start;
     var max: number = spaceId > this.start ? spaceId : this.start;
     max -= distance;
     while (max > min){
@@ -278,41 +275,21 @@ export class GameService {
       }
       max -= distance;
     }
-    this.start = min;
+    this.start = min;*/
+
+    var min: number = spaceId < this.thisTurnSpaces[0] ? spaceId : this.thisTurnSpaces[0];
+    var max: number = spaceId > this.thisTurnSpaces[0] ? spaceId : this.thisTurnSpaces[0];
+    max -= distance;
+    while (max > min){
+      if (!this.spaces[max].occupied){
+        this.message = "Continue building off of this turn's word";
+        return false;
+      }
+      max -= distance;
+    }
+
     return true;
   }
-
-  /*findDirection(spaceId: number){
-    if (spaceId == 112){
-      return;
-    }
-    var horizontal: boolean = false;
-    var vertical: boolean = false;
-    //first letter put down is the start
-    if (spaceId - 15 > 0 && this.spaces[spaceId - 15 ].occupied){
-      vertical = true;
-    }
-    else if (spaceId + 15 < this.spaces.length && this.spaces[spaceId + 15 ].occupied){
-      vertical = true;
-    }
-    if (spaceId - 1 > 0 && this.spaces[spaceId - 1 ].occupied){
-      horizontal = true;
-    }
-    else if (spaceId + 1 < this.spaces.length && this.spaces[spaceId + 1 ].occupied){
-      horizontal = true;
-    }
-    if (horizontal && vertical){
-      return;
-    }
-    if (horizontal){
-      this.direction = "horizontal";
-      return;
-    }
-    this.direction = "vertical";
-  }
-
-  //return letters
-*/
 
 
   makeNeighborsAvailable(spaceId: number){
@@ -329,8 +306,8 @@ export class GameService {
     var lastSpace: number = this.thisTurnSpaces.pop();
     var lastLetter: Letter = this.spaces[lastSpace].letter;
     this.player.letters.push(lastLetter);
-    if (this.player.letters.length >=6){
-      this.direction = null;
+    if (this.player.letters.length >= 6){
+      this.direction = "";
     }
     this.reopenSpace(lastSpace);
   }
@@ -346,10 +323,10 @@ export class GameService {
   }
 
   submitWord(){
-    this.thisTurnScore = 0;
-    this.words = [];
+    if (this.player.letters.length == 0){
+      this.thisTurnScore += 50;
+    }
     this.findAllWords();
-    var nonWords: string[] = [];
     this.checkValidWords();
     return this.message;
  /*   if (this.invalidWords.length > 0){
@@ -369,15 +346,12 @@ export class GameService {
       this.player.score += this.thisTurnScore;
       this.clearTurn();
     }*/
-    //this.findTrueStart();
-    //if it's a valid word
-    //calculate score
-    //make this.direction null
-    //add new letters
-    
+
   }
 
-  findAllWords(){
+  findAllWords(): string[]{
+    this.thisTurnScore = 0;
+    this.words = [];
     if (this.direction == "vertical"){
       //check each letter for a horizontal word
       this.thisTurnSpaces.forEach(letter => {
@@ -397,6 +371,7 @@ export class GameService {
        this.checkWord(this.start, 1); 
        this.checkWord(this.start, 15); 
      }
+     return this.words;
   }
 
   checkWord(spaceId: number, distance: number){
@@ -449,6 +424,9 @@ export class GameService {
     return this.http.get(this.dictionaryUrl);
   }
 
+  public getMWDictionary(word: string): Observable<any>{
+    return this.http.get(this.MWDictionaryUrl + word + this.key);
+  }
 
 
   checkValidWords() { 
@@ -486,19 +464,6 @@ export class GameService {
     });
   }
   
-  undoTurn(){
-    this.tempAvailable.forEach(space => {
-      this.spaces[space].available = !this.spaces[space].available;
-    });
-    this.thisTurnSpaces.forEach(space => {
-      this.player.letters.push(this.spaces[space].letter);
-      this.spaces[space].occupied = false;
-      this.spaces[space].letter = null;
-    });
-    this.tempAvailable = [];
-    this.thisTurnSpaces = [];
-    this.direction = null;
-  }
 
   isValidWord(word: string){
     console.log(word);
@@ -515,18 +480,19 @@ export class GameService {
     });
   }
 
-  /*findTrueStart(){
-    if (this.direction  == "vertical"){
-      while (this.start > 14 && this.spaces[this.start-15].occupied){
-        this.start -= 15;
-      }
-    }
-    else{
-      while (this.start > 0 && this.spaces[this.start-1].occupied){
-        this.start--;
-      }
-    }
-  }*/
+  undoTurn(){
+    this.tempAvailable.forEach(space => {
+      this.spaces[space].available = !this.spaces[space].available;
+    });
+    this.thisTurnSpaces.forEach(space => {
+      this.player.letters.push(this.spaces[space].letter);
+      this.spaces[space].occupied = false;
+      this.spaces[space].letter = null;
+    });
+    this.tempAvailable = [];
+    this.thisTurnSpaces = [];
+    this.direction = null;
+  }
 
   clearTurn(){
     this.thisTurnSpaces.forEach(space => {
@@ -536,10 +502,37 @@ export class GameService {
     this.thisTurnSpaces = [];
     this.tempAvailable = [];
     this.direction = null;
-    this.getLetters(7 - this.player.letters.length);
+    if (this.letters.length > 7 - this.player.letters.length){
+      this.getLetters(7 - this.player.letters.length);
+    }
+    else if (this.letters.length > 0) {
+      this.getLetters(this.letters.length);
+    }
+    else if (this.player.letters.length == 0){
+      this.endGame();
+        }
   }
 
-
-
-
+  endGame(){
+    this.startGame(this.player.name, true);
+    for (var i = 105; i < 120; i++){
+      this.spaces[i].occupied=true;
+      this.spaces[i].bonus="tws";
+    }
+    this.spaces[105].letter = {letter: 'c', points: 3};
+    this.spaces[106].letter = {letter: 'o', points: 1};
+    this.spaces[107].letter = {letter: 'n', points: 1};
+    this.spaces[108].letter = {letter: 'g', points: 2};
+    this.spaces[109].letter = {letter: 'r', points: 1};
+    this.spaces[110].letter = {letter: 'a', points: 1};
+    this.spaces[111].letter = {letter: 't', points: 1};
+    this.spaces[112].letter = {letter: 'u', points: 1};
+    this.spaces[113].letter = {letter: 'l', points: 1};
+    this.spaces[114].letter = {letter: 'a', points: 1};
+    this.spaces[115].letter = {letter: 't', points: 1};
+    this.spaces[116].letter = {letter: 'i', points: 1};
+    this.spaces[117].letter = {letter: 'o', points: 1};
+    this.spaces[118].letter = {letter: 'n', points: 1};
+    this.spaces[119].letter = {letter: 's', points: 1};
+  }
 }

@@ -6,6 +6,11 @@
     float: left;
     font-size: 40px;
     margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .space:active{
+    background-color: #1999b3;
   }
 
   .letter{

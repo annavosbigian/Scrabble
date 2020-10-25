@@ -18,7 +18,6 @@ export class PlayerLettersComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("four");
   }
 
   drag(ev, letter: Letter) {
@@ -29,12 +28,12 @@ export class PlayerLettersComponent implements OnInit {
   drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    console.log(data);
+    console.log("data is " + data);
     console.log("target is " + ev.target.id);
-    if (ev.target.id > 2) {
+    //if (ev.target.id > 2) {
       ev.target.appendChild(document.getElementById(data));
 
-    }
+    //}
   }
 
   allowDrop(ev) {

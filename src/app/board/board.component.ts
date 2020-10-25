@@ -54,7 +54,6 @@ export class BoardComponent implements OnInit {
     //console.log("space availability : " + this.gameService.spaces[ev.target.id].available);
     if (!this.gameService.spaces[id].occupied && this.gameService.spaces[id].available) {
       //ev.target.appendChild(document.getElementById(data));
-      console.log("am here");
       var message = this.gameService.playLetter(id, this.letter);
       this.messageEvent.emit(message);
     }

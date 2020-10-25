@@ -19,6 +19,9 @@ export class HomeComponent {
   titleWord: string[] = ["S", "C", "R", "A", "B", "B", "L", "E"];
   start: boolean;
   message: string;
+  showStats: boolean = false;
+  totalTurns: number = 0;
+  averageScore: number;
 
   rowOne: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   rowTwo: number[] = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
@@ -39,6 +42,7 @@ export class HomeComponent {
 
   playLetter(letter: Letter){
     //this.gameService.letter = letter;
+    this.showStats = false;
     this.letter = letter;
   }
 
@@ -61,10 +65,6 @@ export class HomeComponent {
     this.gameService.undoPlaceLetter();
   }
 
-  replaceLetters(){
-    this.gameService.replaceLetters();
-  }
-
   updateMessage(message: string){
     this.message = message;
     console.log(message);
@@ -79,8 +79,9 @@ export class HomeComponent {
   }
   */
 
-  submitWord() {
-    //figure out how to check attached letters and also letters above and below
+
+  //for local dictionary
+  /*submitWord() {
     this.gameService.submitWord();
     var invalidWords: string[] = [];
     this.gameService.getDictionary().subscribe((data) => {
@@ -105,9 +106,74 @@ export class HomeComponent {
         }
         this.message = message;
       }
+      else {
+        this.totalTurns++;
+        this.averageScore = Math.round(10 * this.player.score/this.totalTurns)/10;
+        this.showStats = true;
+        this.message = this.gameService.remainingLetters + " letters remaining";
+      }
     //add letters for player
   });
 
+  }
+*/
+
+
+  submitWord() {
+    //figure out how to check attached letters and also letters above and below
+    var words: string[] = this.gameService.findAllWords();
+    console.log(words);
+    var invalidWords: string[] = [];
+    words.forEach(word => {
+      this.gameService.getMWDictionary(word).subscribe((response) =>{
+        console.log("word is ", word);
+        console.log("words length is", words.length);
+        console.log("response", response);
+        if (response[0].meta && response[0].meta.id && word.substring(0, 1) == response[0].meta.id.substring(0, 1)){
+          console.log("valid", response[0].meta.id);
+        }
+        else {
+          console.log("invalid", word);
+          invalidWords.push(word);
+        }
+
+        if (word == words[words.length - 1]){
+          if (invalidWords.length > 0){
+            this.undoTurn(invalidWords);
+          }
+          else {
+            this.clearTurn();
+          }
+        }
+      })
+    });
+  }
+
+
+  undoTurn(invalidWords: string[]){
+    console.log("undoing turn");
+    this.gameService.undoTurn();
+    var message = invalidWords.pop();
+    if (invalidWords.length > 0){
+      invalidWords.forEach(word =>{
+        message += " & " + word;
+      })
+        message += " are invalid words";
+    }
+    else {
+      message += " is an invalid word";
+    }
+    this.message = message;
+  }
+
+  clearTurn(){
+    console.log("clearing turn");
+    this.player.score += this.gameService.thisTurnScore;
+    this.gameService.clearTurn();
+    this.totalTurns++;
+    this.averageScore = Math.round(10 * this.player.score/this.totalTurns)/10;
+    this.showStats = true;
+    this.message = this.gameService.remainingLetters + " letters remaining";
   }
 
   /*allowDrop(ev) {
@@ -129,4 +195,34 @@ drop(ev) {
   }
 }*/
 
+    /*this.gameService.getDictionary().subscribe((data) => {
+      this.gameService.words.forEach(word =>{
+        var firstLetter = word.charAt(0);
+        var definition = data[firstLetter][word];
+        if (!definition){
+          invalidWords.push(word);
+        }
+
+      })
+      if (invalidWords.length > 0){
+        var message = invalidWords.pop();
+        if (invalidWords.length > 0){
+          invalidWords.forEach(word =>{
+            message += " & " + word;
+          })
+            message += " are invalid words";
+        }
+        else {
+          message += " is an invalid word";
+        }
+        this.message = message;
+      }
+      else {
+        this.totalTurns++;
+        this.averageScore = Math.round(10 * this.player.score/this.totalTurns)/10;
+        this.showStats = true;
+        this.message = this.gameService.remainingLetters + " letters remaining";
+      }
+    //add letters for player
+  });*/
 }

@@ -2,7 +2,7 @@
 
 <div *ngIf="player">
   <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
-    <div *ngFor="let letter of player.letters" class="space" (drop)="drop($event)" (dragover)="allowDrop($event)">
+    <div *ngFor="let letter of player.letters" class="space" (drop)="drop($event)" (dragover)="allowDrop($event)" draggable="true" (dragstart)="drag($event, letter)" id="{{letter.letter}}">
       <div draggable="true" (dragstart)="drag($event, letter)" id="{{letter.letter}}"><span class="letter">{{letter.letter}}</span> <span class="points">{{letter.points}}</span></div>
     </div>
   </div>
