@@ -51,7 +51,8 @@ export class BoardComponent implements OnInit {
     //var data = ev.dataTransfer.getData("text");
     //if board at target id is not occuppied && available, set element
     //console.log("space occupation : " + this.gameService.spaces[ev.target.id].occupied);
-    //console.log("space availability : " + this.gameService.spaces[ev.target.id].available);
+    console.log("space availability : " );
+    
     if (!this.gameService.spaces[id].occupied && this.gameService.spaces[id].available) {
       //ev.target.appendChild(document.getElementById(data));
       var message = this.gameService.playLetter(id, this.letter);

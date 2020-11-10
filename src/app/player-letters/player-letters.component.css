@@ -3,9 +3,10 @@
   .space {
     width: 70px;
     height: 70px;
+    border: 5px solid #123440;
     float: left;
     font-size: 40px;
-    margin-right: 10px;
+    /*margin-right: 10px;*/
     cursor: pointer;
   }
 

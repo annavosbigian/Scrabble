@@ -1,4 +1,4 @@
-<div class="board" *ngIf="gameService.spaces">
+<div class="board" *ngIf="gameService.spaces" (cdkDropListDropped)="drop($event)" cdkDropList>
   <div *ngFor="let i of rowOne">
     <div class="square  {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)">
       <div class="content">

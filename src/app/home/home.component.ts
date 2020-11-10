@@ -5,6 +5,7 @@ import { Letter } from '../../models/letter.model';
 import { GameService } from '../../services/game.service';
 import { Space } from '../../models/space.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { forkJoin, Observable } from 'rxjs';
 
 
 
@@ -42,6 +43,7 @@ export class HomeComponent {
 
   playLetter(letter: Letter){
     //this.gameService.letter = letter;
+    console.log("am here!", letter);
     this.showStats = false;
     this.letter = letter;
   }
@@ -148,6 +150,73 @@ export class HomeComponent {
       })
     });
   }
+
+  submitWordWithFork(){
+    var wordsObservable: Observable<any>[] = [];
+    var words: string[] = this.gameService.findAllWords();
+    console.log(words);
+    var invalidWords: string[] = [];
+    words.forEach(word => {
+      wordsObservable.push(this.gameService.getMWDictionary(word));
+    });
+    const observable = forkJoin(wordsObservable);
+    observable.subscribe((response) =>{
+      /*for(var r in response){
+        console.log("meta is", r[0].meta);
+      }*/
+      var i: number = 0;
+      response.forEach((word) => {
+        try{
+          if(word[0].meta && word[0].meta.id && word[0].meta.id == word[0].meta.id.toLowerCase()){
+            console.log("valid", word[0].meta.id);
+          }
+          else {
+            console.log("invalid", response);
+            invalidWords.push(words[i]);
+          }
+          i++
+        }
+        catch(err){
+          console.log(err);
+        }
+      })
+      if (invalidWords.length > 0){
+        this.undoTurn(invalidWords);
+      }
+      else {
+        this.clearTurn();
+      }
+      });
+    }
+      
+      /*{
+     next: value => console.log(value),
+     complete: () => console.log('This is how it ends!'),
+    });
+      {
+      this.gameService.getMWDictionary(word).subscribe((response) =>{
+        console.log("word is ", word);
+        console.log("words length is", words.length);
+        console.log("response", response);
+        if (response[0].meta && response[0].meta.id && word.substring(0, 1) == response[0].meta.id.substring(0, 1)){
+          console.log("valid", response[0].meta.id);
+        }
+        else {
+          console.log("invalid", word);
+          invalidWords.push(word);
+        }
+
+        if (word == words[words.length - 1]){
+          if (invalidWords.length > 0){
+            this.undoTurn(invalidWords);
+          }
+          else {
+            this.clearTurn();
+          }
+        }
+      })
+    });*/
+  
 
 
   undoTurn(invalidWords: string[]){
