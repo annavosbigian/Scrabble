@@ -24,7 +24,7 @@ export class GameService {
   message: string;
   dictionaryUrl = '../assets/dictionary.json';
   MWDictionaryUrl =  'https://dictionaryapi.com/api/v3/references/collegiate/json/'
-  key='?key=d9bbe7bd-eb21-4cfb-b08b-81bb630087aa'
+  key='?[KEY]'
   remainingLetters: number = 98;
 
 //don't do available until after - let them put it anywhere and if it isn't touching an available space then it isn't valid
