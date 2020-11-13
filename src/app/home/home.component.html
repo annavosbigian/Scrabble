@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6 offset-3 player-letters">
       <div *ngIf="start; else play" class="input-group">
-        <span class="name input-group-text">Your Name:</span><input type="text" class="form-control form-inline" #name/>
+        <span class="name input-group-text">Your Name:</span><input type="text" class="form-control form-inline" (keyup.enter)="startNewGame(name.value)" #name/>
         <div class="input-group-append">
           <button class="btn" (click)="startNewGame(name.value)">Start</button>
         </div>
@@ -34,7 +34,7 @@
       </div>
       <div class="row">
         <div class="col-md-5">
-          <button *ngIf="player.letters.length < 7" class="btn" (click)="submitWordWithFork()">Submit</button>
+          <button *ngIf="player.letters.length < 7" class="btn" (click)="submitWord()">Submit</button>
         </div>
       </div>
       <div class="row">

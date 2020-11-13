@@ -18,7 +18,6 @@ export class GameService {
   tempAvailable: number[];
   direction: string;
   start: number;
-  //option to only let them choose from tempAvail places
   player: Player;
   words: string[];
   message: string;
@@ -27,12 +26,11 @@ export class GameService {
   key='?key=d9bbe7bd-eb21-4cfb-b08b-81bb630087aa'
   remainingLetters: number = 98;
 
-//don't do available until after - let them put it anywhere and if it isn't touching an available space then it isn't valid
-
   constructor(private http: HttpClient){
 
   }
 
+  //initializes the board, including bonus spaces
   public createBoard() {
     this.spaces = [];
     var dls: number[] = [3, 11, 36, 38, 45, 52, 59, 92, 96, 98, 102, 108];
@@ -56,7 +54,6 @@ export class GameService {
         if (y != 14) {
           neighborArray.push(location + 15);
         }
-        //this.board[i][j] = false;
         this.spaces[location] = {
           xcoord: x,
           ycoord: y,
@@ -93,10 +90,9 @@ export class GameService {
       this.spaces[pos].bonus = "tws";
       this.spaces[224 - pos].bonus = "tws";
     }
-
-
   }
 
+  //initializes all letters
   public createLetters() {
     this.letters = [];
     for (let i = 0; i < 9; i++) {
@@ -173,6 +169,7 @@ export class GameService {
     this.letters.push({ letter: "z", points: 10 });
   }
 
+  //gives the player letters, begins game and clears previous game if restarting 
   public startGame(name: string = "", restart: boolean){
     if (restart){
       this.createBoard();
@@ -190,6 +187,7 @@ export class GameService {
     return this.player;
   }
 
+  //replenishes the player's letters
   public getLetters(total: number) {
     //gather random letters
     for (let i = 0; i < total; i++) {
@@ -199,11 +197,11 @@ export class GameService {
       this.remainingLetters--;
     }
   }
-  
+ 
+  //when player drops letter, checks that it's a valid move, then adds to array
   playLetter(spaceId: number, letter: Letter){
     this.message="";
     //initiate letters
-    console.log("this turn spaces", this.thisTurnSpaces);
     //initiate word if empty
     if (this.thisTurnSpaces.length < 1){
       this.start = spaceId;
@@ -216,6 +214,7 @@ export class GameService {
     return this.message;
   }
 
+  //adds letter to the board and make neighboring spaces available
   setLetter(spaceId: number, letter: Letter){
     var currentSpace: Space = this.spaces[spaceId];
     //set the letter
@@ -230,11 +229,8 @@ export class GameService {
   }
 
   //check to make sure the letter is connected to the letters already put down
-  //could just do addition down the line - make one the min and one the max - and make sure everything is avail
   validateMove(spaceId: number): boolean {
     var space: Space = this.spaces[spaceId];
-    console.log("direction", this.direction);
-    console.log("start", this.start);
     if (!this.direction){
       if (this.spaces[this.start].xcoord == space.xcoord){
         this.direction = "vertical";
@@ -249,8 +245,9 @@ export class GameService {
     }
     return this.checkLettersAreLinked(spaceId);
   }
-
-  checkLettersAreLinked(spaceId: number){
+  
+  //checks that the played letter is connected with the current word
+   checkLettersAreLinked(spaceId: number){
     var currentSpace: Space = this.spaces[spaceId];
     var startSpace: Space = this.spaces[this.start];
     if (this.direction){
@@ -264,19 +261,8 @@ export class GameService {
     }
   }
 
+ //checks that the letter played is in the same direction as other letters from turn 
   scanDirection(spaceId: number, distance: number){
-    /*var min: number = spaceId < this.start ? spaceId : this.start;
-    var max: number = spaceId > this.start ? spaceId : this.start;
-    max -= distance;
-    while (max > min){
-      if (!this.spaces[max].occupied){
-        this.message = "Continue building off of this turn's word";
-        return false;
-      }
-      max -= distance;
-    }
-    this.start = min;*/
-
     var min: number = spaceId < this.thisTurnSpaces[0] ? spaceId : this.thisTurnSpaces[0];
     var max: number = spaceId > this.thisTurnSpaces[0] ? spaceId : this.thisTurnSpaces[0];
     max -= distance;
@@ -291,7 +277,7 @@ export class GameService {
     return true;
   }
 
-
+  //opens the unoccupied spaces next to the played letter
   makeNeighborsAvailable(spaceId: number){
     //if not already available, add to avail array
     for (let neighbor of this.spaces[spaceId].neighbors){
@@ -302,6 +288,7 @@ export class GameService {
     }
   }
 
+  //gives player their last played letter and undoes all associated actions
   undoPlaceLetter(){
     var lastSpace: number = this.thisTurnSpaces.pop();
     var lastLetter: Letter = this.spaces[lastSpace].letter;
@@ -312,6 +299,7 @@ export class GameService {
     this.reopenSpace(lastSpace);
   }
 
+  //makes the newly opened spaces unavailable
   reopenSpace(lastSpace: number){
     this.spaces[lastSpace].letter = null;
     this.spaces[lastSpace].occupied = false;
@@ -322,33 +310,7 @@ export class GameService {
     }
   }
 
-  submitWord(){
-    if (this.player.letters.length == 0){
-      this.thisTurnScore += 50;
-    }
-    this.findAllWords();
-    this.checkValidWords();
-    return this.message;
- /*   if (this.invalidWords.length > 0){
-      console.log("invalid", this.invalidWords);
-      this.undoTurn();
-      return;
-    }
-    /*this.words.forEach(word => {
-      if (this.isValidWord(word)){
-        console.log("score is " + this.thisTurnScore);
-      }
-      else {
-        nonWords.push(word);
-      }
-    })*/
-    /*else {
-      this.player.score += this.thisTurnScore;
-      this.clearTurn();
-    }*/
-
-  }
-
+    //scans all played letters for connected words
   findAllWords(): string[]{
     this.thisTurnScore = 0;
     this.words = [];
@@ -374,6 +336,7 @@ export class GameService {
      return this.words;
   }
 
+  //finds the word connected to the space
   checkWord(spaceId: number, distance: number){
     var min: number = spaceId;
     var max: number = spaceId;
@@ -388,6 +351,7 @@ export class GameService {
     }
   }
 
+  //calculates the word's score with all bonuses
   addWordAndScore(min: number, max: number, distance: number): string{
     var wordScore: number = 0;
     var word: string = "";
@@ -416,70 +380,12 @@ export class GameService {
     return word;
   }
 
-
-
-  //private dictionaryUrl = '../assets/test.json';
-
-  public getDictionary(): Observable<any> {
-    return this.http.get(this.dictionaryUrl);
-  }
-
+    //calls the Merriam Webster dictionary api
   public getMWDictionary(word: string): Observable<any>{
     return this.http.get(this.MWDictionaryUrl + word + this.key);
   }
 
-
-  checkValidWords() { 
-    var invalidWords: string[] = [];
-    this.getDictionary().subscribe(data => {
-      this.words.forEach(word =>{
-        console.log(word);
-        var firstLetter = word.charAt(0);
-        console.log(firstLetter);
-        var definition = data[firstLetter][word];
-        console.log(definition);
-        if (!definition){
-          invalidWords.push(word);
-        }
-
-      })
-      if (invalidWords.length > 0){
-       /* var message = "";
-        invalidWords.forEach(word =>{
-          message += word + " "
-        })
-        if (invalidWords.length > 1){
-          message += " are invalid words";
-        }
-        else {
-          " is an invalid word";
-        }
-        this.message = message;*/
-        this.undoTurn();
-      }
-      else {
-        this.player.score += this.thisTurnScore;
-        this.clearTurn();
-      }
-    });
-  }
-  
-
-  isValidWord(word: string){
-    console.log(word);
-    this.getDictionary().subscribe(data => {
-      var firstLetter = word.charAt(0);
-      var definition = data[firstLetter][word];
-      console.log(definition);
-      if (definition){
-        return true;
-      }
-      else {
-        return false;
-      }
-    });
-  }
-
+  //removes the turn from the board if one or more words were invalid
   undoTurn(){
     this.tempAvailable.forEach(space => {
       this.spaces[space].available = !this.spaces[space].available;
@@ -494,10 +400,10 @@ export class GameService {
     this.direction = null;
   }
 
+  //clears turn if all words were valid
   clearTurn(){
     this.thisTurnSpaces.forEach(space => {
       this.spaces[space].bonus = "";
-      console.log(this.spaces[space]);
     });
     this.thisTurnSpaces = [];
     this.tempAvailable = [];
@@ -513,6 +419,7 @@ export class GameService {
         }
   }
 
+  //When the player has played the final letter, show Contratulations on the board
   endGame(){
     this.startGame(this.player.name, true);
     for (var i = 105; i < 120; i++){
@@ -535,4 +442,60 @@ export class GameService {
     this.spaces[118].letter = {letter: 'n', points: 1};
     this.spaces[119].letter = {letter: 's', points: 1};
   }
+
+//local dictionary
+  /*private dictionaryUrl = '../assets/test.json';
+
+  public getDictionary(): Observable<any> {
+    return this.http.get(this.dictionaryUrl);
+  }*/
+
+
+  //submits turn for validation and score
+  /*submitWord(){
+    if (this.player.letters.length == 0){
+      this.thisTurnScore += 50;
+    }
+    this.findAllWords();
+    this.checkValidWords();
+    return this.message;
+   }
+
+   checkValidWords() { 
+    var invalidWords: string[] = [];
+    this.getDictionary().subscribe(data => {
+      this.words.forEach(word =>{
+        var firstLetter = word.charAt(0);
+        var definition = data[firstLetter][word];
+        if (!definition){
+          invalidWords.push(word);
+        }
+
+      })
+      if (invalidWords.length > 0){
+       this.undoTurn();
+      }
+      else {
+        this.player.score += this.thisTurnScore;
+        this.clearTurn();
+      }
+    });
+  }
+  
+
+  isValidWord(word: string){
+    this.getDictionary().subscribe(data => {
+      var firstLetter = word.charAt(0);
+      var definition = data[firstLetter][word];
+      if (definition){
+        return true;
+      }
+      else {
+        return false;
+      }
+    });
+  }
+*/
+
+
 }

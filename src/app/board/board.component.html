@@ -84,7 +84,7 @@
     </div>
   </div>
   <div *ngFor="let i of rowEight">
-    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)" (click)="seeId(i)">
+    <div class="square {{gameService.spaces[i].bonus}}" id="{{i}}" (drop)="drop(i)" (dragover)="allowDrop($event)" >
       <div class="content"  id="{{i}}">
         <div class="table" id="{{i}}">
           <div class="table-cell" >

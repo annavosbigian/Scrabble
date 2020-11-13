@@ -20,7 +20,7 @@
   margin-right: 10px;
   border: none;
   background: transparent;
-  font-size: 40px;
+  font-size: 30px;
 }
 
 .btn:hover {
@@ -51,19 +51,6 @@ input:active{
   width: 6%;
   padding-bottom: 6%; /* = width for a 1:1 aspect ratio */
   overflow:hidden;
-  /*width: 100%;
-  height: 100%;*/
-  /*margin: 0px;
-  padding: 0px;
-  font-family: 'Asap', serif;
-  color: #dc947f;
-  text-transform: uppercase;
-  text-align: center;
-  background-color: #055565;
-  border: none;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;*/
 }
 
 .square {
@@ -96,16 +83,12 @@ input:active{
 
 
 .space{
-  width: 90px;
-  height: 90px;
+  width: 75px;
+  height: 75px;
   margin-bottom: 5px;
   font-family: "Monoton";
   background-color: #055565;
   border: none;
-  /*border: 0px #0c7385;
-  border:	#055565;
-  color: teal;
-  background-color: seagreen;*/
 }
 
 
@@ -173,56 +156,4 @@ padding: 10px;
 
 
 
-
-
-/*.letter {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: 0;
-  transform: translate(-50%, -50%);
-}*/
-/*NEON
-.start-btn{
-  background: transparent;
-  color: #35a6a3;
-  font-size: 30px;
-}
-
-.name{
-  color: #ac50ee;
-  font-size: 40px;
-  margin-right: 10px;
-  border: none;
-  background: transparent;
-}
-input{
-  height: 50px;
-  background-color: #000c66;  ;
-  border: 2px solid black;
-  width: 2500px;
-  margin-top: 10px;
-}
-
-input[type="text"]{
-  background-color: #000f7f; 
-  color: #ffe700;
-}
-
-.start-btn:hover {
-  color: aqua;
-}
-input{
-  height: 50px;
-  background-color: #000c66;  ;
-  border: 2px solid black;
-  width: 2500px;
-  margin-top: 10px;
-}
-
-input[type="text"]{
-  background-color: #000f7f; 
-  color: #ffe700;
-}
-*/
 

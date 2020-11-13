@@ -19,18 +19,18 @@ export class PlayerLettersComponent implements OnInit {
   ngOnInit() {
   }
 
-  
+ //gives letter to parent element to drop on the board 
   playLetter(letter: Letter) {
     this.letterEvent.emit(letter);
   }
 
   drag(id, letter: Letter) {
-    console.log("dragging!", id);
     this.currentId = id;
     this.playLetter(letter);
     //ev.dataTransfer.setData("text", ev.target.id);
   }
 
+  //if the letter is dropped in the letter pane, it reorganizes the letters
   drop(ev) {
     //ev.preventDefault();
     var data = ev.dataTransfer.getData("text");

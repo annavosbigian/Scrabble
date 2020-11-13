@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Letter } from '../../models/letter.model';
 import { GameService } from 'src/services/game.service';
-import { GamePlayService } from 'src/services/game-play.service';
 
 @Component({
   selector: 'app-board',
@@ -33,33 +32,19 @@ export class BoardComponent implements OnInit {
   lettersMustTouchMessage: string = "New letters must be attached to letters on the board.";
 
 
-  constructor(public gameService: GameService, public gamePlayService: GamePlayService) { }
+  constructor(public gameService: GameService) { }
 
   ngOnInit() {
   }
 
-  seeId(id){
-    console.log(this.gameService.spaces[id]);
-  }
-
-  drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-  }
-
+  //checks that player is setting word in valid space, then adds letter to board
   drop(id) {
-    //ev.preventDefault();
-    //var data = ev.dataTransfer.getData("text");
-    //if board at target id is not occuppied && available, set element
-    //console.log("space occupation : " + this.gameService.spaces[ev.target.id].occupied);
-    console.log("space availability : " );
-    
-    if (!this.gameService.spaces[id].occupied && this.gameService.spaces[id].available) {
+   if (!this.gameService.spaces[id].occupied && this.gameService.spaces[id].available) {
       //ev.target.appendChild(document.getElementById(data));
       var message = this.gameService.playLetter(id, this.letter);
       this.messageEvent.emit(message);
     }
     else {
-      //toastr must play in an open space connected to a played letter
       if (this.gameService.spaces[112].occupied){
         this.messageEvent.emit(this.lettersMustTouchMessage);
       }

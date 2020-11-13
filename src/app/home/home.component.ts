@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Player } from '../../models/player.model';
-import { GamePlayService } from '../../services/game-play.service';
 import { Letter } from '../../models/letter.model';
 import { GameService } from '../../services/game.service';
 import { Space } from '../../models/space.model';
@@ -24,6 +23,7 @@ export class HomeComponent {
   totalTurns: number = 0;
   averageScore: number;
 
+  //each row of the board
   rowOne: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   rowTwo: number[] = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
   rowThree: number[] = [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44];
@@ -41,120 +41,41 @@ export class HomeComponent {
   rowFifteen: number[] = [210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224];
 
 
-  playLetter(letter: Letter){
-    //this.gameService.letter = letter;
-    console.log("am here!", letter);
-    this.showStats = false;
-    this.letter = letter;
-  }
 
-  constructor(private gameService: GameService, private gamePlayService: GamePlayService) {
+  constructor(private gameService: GameService){
     this.gameService.createLetters();
     this.gameService.createBoard();
     this.start = true;
-    //this.gameService.board = Space[15][15];
   }
 
+  //creates a new game or restarts current game
   startNewGame(name: string, restart: boolean = false) {
     this.player = this.gameService.startGame(name, restart);
     this.start = false;
     this.titleWord = [...name];
     this.message = "Place your first letter in the middle tile."
-    //this.gameService.player; 
   }
 
+  //receives letter from player-letters and removes the last message from screen
+  playLetter(letter: Letter){
+    //this.gameService.letter = letter;
+    this.showStats = false;
+    this.letter = letter;
+  }
+  
+  //removes the last played letter
   undoMove(){
     this.gameService.undoPlaceLetter();
   }
 
   updateMessage(message: string){
     this.message = message;
-    console.log(message);
   }
 
-  //change it to an array of the locations that need to be filled in with letters
-
-
-  /*
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.player.letters, event.previousIndex, event.currentIndex);
-  }
-  */
-
-
-  //for local dictionary
-  /*submitWord() {
-    this.gameService.submitWord();
-    var invalidWords: string[] = [];
-    this.gameService.getDictionary().subscribe((data) => {
-      this.gameService.words.forEach(word =>{
-        var firstLetter = word.charAt(0);
-        var definition = data[firstLetter][word];
-        if (!definition){
-          invalidWords.push(word);
-        }
-
-      })
-      if (invalidWords.length > 0){
-        var message = invalidWords.pop();
-        if (invalidWords.length > 0){
-          invalidWords.forEach(word =>{
-            message += " & " + word;
-          })
-            message += " are invalid words";
-        }
-        else {
-          message += " is an invalid word";
-        }
-        this.message = message;
-      }
-      else {
-        this.totalTurns++;
-        this.averageScore = Math.round(10 * this.player.score/this.totalTurns)/10;
-        this.showStats = true;
-        this.message = this.gameService.remainingLetters + " letters remaining";
-      }
-    //add letters for player
-  });
-
-  }
-*/
-
-
+  //gather the words connected to the played letters and checks the dictonary to see if they're valid
   submitWord() {
-    //figure out how to check attached letters and also letters above and below
-    var words: string[] = this.gameService.findAllWords();
-    console.log(words);
-    var invalidWords: string[] = [];
-    words.forEach(word => {
-      this.gameService.getMWDictionary(word).subscribe((response) =>{
-        console.log("word is ", word);
-        console.log("words length is", words.length);
-        console.log("response", response);
-        if (response[0].meta && response[0].meta.id && word.substring(0, 1) == response[0].meta.id.substring(0, 1)){
-          console.log("valid", response[0].meta.id);
-        }
-        else {
-          console.log("invalid", word);
-          invalidWords.push(word);
-        }
-
-        if (word == words[words.length - 1]){
-          if (invalidWords.length > 0){
-            this.undoTurn(invalidWords);
-          }
-          else {
-            this.clearTurn();
-          }
-        }
-      })
-    });
-  }
-
-  submitWordWithFork(){
     var wordsObservable: Observable<any>[] = [];
     var words: string[] = this.gameService.findAllWords();
-    console.log(words);
     var invalidWords: string[] = [];
     words.forEach(word => {
       wordsObservable.push(this.gameService.getMWDictionary(word));
@@ -167,11 +88,7 @@ export class HomeComponent {
       var i: number = 0;
       response.forEach((word) => {
         try{
-          if(word[0].meta && word[0].meta.id && word[0].meta.id == word[0].meta.id.toLowerCase()){
-            console.log("valid", word[0].meta.id);
-          }
-          else {
-            console.log("invalid", response);
+          if(!word[0].meta || !word[0].meta.id || word[0].meta.id != word[0].meta.id.toLowerCase()){
             invalidWords.push(words[i]);
           }
           i++
@@ -189,38 +106,9 @@ export class HomeComponent {
       });
     }
       
-      /*{
-     next: value => console.log(value),
-     complete: () => console.log('This is how it ends!'),
-    });
-      {
-      this.gameService.getMWDictionary(word).subscribe((response) =>{
-        console.log("word is ", word);
-        console.log("words length is", words.length);
-        console.log("response", response);
-        if (response[0].meta && response[0].meta.id && word.substring(0, 1) == response[0].meta.id.substring(0, 1)){
-          console.log("valid", response[0].meta.id);
-        }
-        else {
-          console.log("invalid", word);
-          invalidWords.push(word);
-        }
-
-        if (word == words[words.length - 1]){
-          if (invalidWords.length > 0){
-            this.undoTurn(invalidWords);
-          }
-          else {
-            this.clearTurn();
-          }
-        }
-      })
-    });*/
   
-
-
+  //clears the turn if an invalid word is played
   undoTurn(invalidWords: string[]){
-    console.log("undoing turn");
     this.gameService.undoTurn();
     var message = invalidWords.pop();
     if (invalidWords.length > 0){
@@ -235,8 +123,11 @@ export class HomeComponent {
     this.message = message;
   }
 
+  //clears the turn if all words are valid
   clearTurn(){
-    console.log("clearing turn");
+    if (this.player.letters.length == 0){
+      this.gameService.thisTurnScore += 50;
+    }
     this.player.score += this.gameService.thisTurnScore;
     this.gameService.clearTurn();
     this.totalTurns++;
@@ -245,53 +136,4 @@ export class HomeComponent {
     this.message = this.gameService.remainingLetters + " letters remaining";
   }
 
-  /*allowDrop(ev) {
-    ev.preventDefault();
-  }
-
-drag(ev) {
-  ev.dataTransfer.setData("text", ev.target.id);
-}
-
-drop(ev) {
-  ev.preventDefault();
-  var data = ev.dataTransfer.getData("text");
-  console.log(data);
-  console.log("target is " + ev.target.id);
-  if (ev.target.id > 2) {
-    ev.target.appendChild(document.getElementById(data));
-
-  }
-}*/
-
-    /*this.gameService.getDictionary().subscribe((data) => {
-      this.gameService.words.forEach(word =>{
-        var firstLetter = word.charAt(0);
-        var definition = data[firstLetter][word];
-        if (!definition){
-          invalidWords.push(word);
-        }
-
-      })
-      if (invalidWords.length > 0){
-        var message = invalidWords.pop();
-        if (invalidWords.length > 0){
-          invalidWords.forEach(word =>{
-            message += " & " + word;
-          })
-            message += " are invalid words";
-        }
-        else {
-          message += " is an invalid word";
-        }
-        this.message = message;
-      }
-      else {
-        this.totalTurns++;
-        this.averageScore = Math.round(10 * this.player.score/this.totalTurns)/10;
-        this.showStats = true;
-        this.message = this.gameService.remainingLetters + " letters remaining";
-      }
-    //add letters for player
-  });*/
 }
