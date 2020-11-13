@@ -23,7 +23,7 @@ export class GameService {
   message: string;
   dictionaryUrl = '../assets/dictionary.json';
   MWDictionaryUrl =  'https://dictionaryapi.com/api/v3/references/collegiate/json/'
-  key='?key=d9bbe7bd-eb21-4cfb-b08b-81bb630087aa'
+  key='?[KEY]'
   remainingLetters: number = 98;
 
   constructor(private http: HttpClient){
